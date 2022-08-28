@@ -8,7 +8,8 @@ const (
 	NumberOfBids int = 50
 )
 
-type dataType [NumberOfBids]string
+type BidType [2]byte
+type dataType [NumberOfBids]BidType
 
 type Data struct {
 	*primitive.LeftRightPrimitive
@@ -31,19 +32,19 @@ func NewData() *Data {
 	return d
 }
 
-func (d *Data) Get(index int) string {
-	val := ""
+func (d *Data) Get(index int) *BidType {
+	var val *BidType
 	d.ApplyReadFn(d.left, d.right, func(instance interface{}) {
 		i := instance.(*dataType)
-		val = i[index]
+		val = &i[index]
 	})
 
 	return val
 }
 
-func (d *Data) Put(index int, val string) {
+func (d *Data) Put(index int, val *BidType) {
 	d.ApplyWriteFn(d.left, d.right, func(instance interface{}) {
 		i := instance.(*dataType)
-		i[index] = val
+		i[index] = *val
 	})
 }
