@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/valyala/fasthttp"
+	"github.com/valyala/fasthttp/pprofhandler"
 )
 
 const (
@@ -22,7 +23,8 @@ func main() {
 		case "/admin/requests":
 			service.AdminHandler(ctx)
 		default:
-			ctx.Error("not found", fasthttp.StatusNotFound)
+			pprofhandler.PprofHandler(ctx)
+			// ctx.Error("not found", fasthttp.StatusNotFound)
 		}
 	}
 
